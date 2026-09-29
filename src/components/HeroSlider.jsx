@@ -1,0 +1,61 @@
+import { useEffect, useState } from "react";
+
+const slides = [
+  {
+    id: 1,
+    image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80",
+    alt: "연어 스테이크"
+  },
+  {
+    id: 2,
+    image: "https://images.unsplash.com/photo-1625467150224-673f708dd8e8?auto=format&fit=crop&w=1200&q=80",
+    alt: "토마토 파스타"
+  },
+  {
+    id: 3,
+    image: "https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?auto=format&fit=crop&w=1200&q=80",
+    alt: "아보카도 요리"
+  }
+];
+
+function HeroSlider() {
+  const [slideIndex, setSlideIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSlideIndex((현재인덱스) => {
+        console.log("현재인덱스:", 현재인덱스);
+
+        return (현재인덱스+ 1) % slides.length;
+      });
+    }, 3000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const prevSlide = () => setSlideIndex((현재인덱스) => (현재인덱스 - 1 + slides.length) % slides.length);
+  const nextSlide = () => setSlideIndex((현재인덱스) => (현재인덱스 + 1) % slides.length);
+
+  return (
+    <div className="hero-slide">
+      <img src={slides[slideIndex].image} alt={slides[slideIndex].alt} />
+      <button className="slide-btn prev" onClick={prevSlide} aria-label="이전 이미지">
+        ‹
+      </button>
+      <button className="slide-btn next" onClick={nextSlide} aria-label="다음 이미지">
+        ›
+      </button>
+      <div className="slide-dots">
+        {slides.map((slide, index) => (
+          <button
+            key={slide.id}
+            className={index === slideIndex ? "on" : ""}
+            onClick={() => setSlideIndex(index)}
+            aria-label={`${index + 1}번 이미지`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+export default HeroSlider;
