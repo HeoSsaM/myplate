@@ -23,18 +23,36 @@ function HeroSlider() {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setSlideIndex((현재인덱스) => {
-        console.log("현재인덱스:", 현재인덱스);
-
-        return (현재인덱스+ 1) % slides.length;
+      setSlideIndex((currentIndex) => {
+        console.log("currentIndex:", currentIndex);
+        return (currentIndex+ 1) % slides.length;
       });
     }, 3000);
+    /* 
+      현재 인덱스      3초 후 인덱스
+           0           (0 + 1) / 3 =  1
+           1           (1 + 1) / 3 = 2
+           2           (2 + 1) / 3 = 0
+    
+    */
 
-    return () => clearInterval(timer);
+    return () => clearInterval(timer); //화면을 다른 페이지로 이동
   }, []);
 
-  const prevSlide = () => setSlideIndex((현재인덱스) => (현재인덱스 - 1 + slides.length) % slides.length);
-  const nextSlide = () => setSlideIndex((현재인덱스) => (현재인덱스 + 1) % slides.length);
+  const prevSlide = () => setSlideIndex((currentIndex) => (currentIndex - 1 + slides.length) % slides.length);
+  /* 
+      현재 인덱스   => currentIndex -1 + 3 / 3  = 
+          0                0  - 1 + 3 / 3  = 2
+          2                2  - 1 + 3 / 3  = 1
+          1                1  - 1 + 3 / 3  = 0
+  */
+  const nextSlide = () => setSlideIndex((currentIndex) => (currentIndex + 1) % slides.length);
+  /* 
+      현재 인덱스   => currentIndex + 1  / 3  
+          0                0  + 1 / 3  = 1
+          1                1  + 1 / 3  = 2
+          2                2  + 1  / 3  = 0
+  */
 
   return (
     <div className="hero-slide">
